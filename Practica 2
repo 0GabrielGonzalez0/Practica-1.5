@@ -1,0 +1,17 @@
+/*PRACTICA 2: Integración de componente basico de pantalla
+Simulador desplegar en OLED display (de nombre SSD1306 la libreria)*/
+
+from machine import Pin, I2C
+from ssd1206 import SSD1306_I2C
+
+i2c=I2C(0,sda=Pin(0), scl=Pin(1), freq=400000)
+oled = SSD1306_I2C(128, 64, i2c)
+sensor_temp = machine.ADC(4)
+conversion_factor = 3.3 / (65535)
+booly = True
+while booly:
+  reading = sensor_temp.read_u16() * conversion_factor 
+  temperature = 27 - (reading - 0.706)/0.001721
+  oled.text("Temperatura: {}" .format(temperature),0,0)
+  oled.show()
+  #alerta not tested with pico w yet
